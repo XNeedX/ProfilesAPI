@@ -1,10 +1,10 @@
 ﻿namespace InnoClinic.Profiles.Api.DTOs;
 
-public record PatientProfileViewByPatientResponse(
+public record ReceptionistUpdateRequest(
     string? Photo,
     string FirstName,
     string LastName,
     string? MiddleName,
-    string PhoneNumber,
-    DateTime DateOfBirth
+    string Email,
+    string Office
 );

@@ -10,14 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IPatientService, PatientService>();
-builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<IPasswordGenerator, PasswordService>();
 builder.Services.AddScoped<IEmailService, TempEmailService>();
+builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
 
-builder.Services.AddValidatorsFromAssemblyContaining<CreateDoctorRequestValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<CreatePatientRequestValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateDoctorRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateReceptionistRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateReceptionistRequestValidator>();
 
 builder.Services.AddDbContext<ProfilesDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

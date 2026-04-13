@@ -1,15 +1,13 @@
 ﻿namespace InnoClinic.Profiles.Api.Models;
-public class PatientProfile
+
+public class Receptionist
 {
     public Guid Id { get; set; } // PK
-    public string? AccountId { get; set; } // FK
+    public string? AccountId { get; set; } // FK 
     public string? PhotoPath { get; set; }
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public string? MiddleName { get; set; }
-    public string PhoneNumber { get; set; } = null!;
-    public DateTime DateOfBirth { get; set; }
-    public bool IsEmailVerified { get; set; }
-    public bool IsLinkedToAccount { get; set; }
+    public string Email { get; set; } = null!;
+    public string OfficeAddress { get; set; } = null!;
 }
-
