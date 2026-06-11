@@ -22,6 +22,7 @@ internal class PatientService : IPatientService
     {
         _patientRepository = patientRepository;
         _unitOfWork = unitOfWork;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<Result> UpdateAsync(Guid id, CreatePatientDto request)

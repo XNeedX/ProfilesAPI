@@ -3,6 +3,7 @@ using Profiles.Application.DTOs;
 using Profiles.Application.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Profiles.Presentation.Responses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Profiles.Presentation.Controllers;
 
@@ -25,7 +26,7 @@ public class DoctorsController : ApiController
     }
 
     [HttpPost]
-    // [Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> CreateDoctor([FromBody] CreateDoctorDto request)
     {
         var validationResult = await _createValidator.ValidateAsync(request);
@@ -41,7 +42,7 @@ public class DoctorsController : ApiController
     }
 
     [HttpGet]
-    // [Authorize(Roles = "Patient, Receptionist")]
+    [Authorize(Roles = "Patient, Receptionist")]
     public async Task<IActionResult> GetDoctors([FromQuery] DoctorFilterDto filter)
     {
         var result = await _doctorService.GetFilteredDoctorsAsync(filter);
@@ -49,7 +50,7 @@ public class DoctorsController : ApiController
     }
 
     [HttpGet("{id:guid}")]
-    // [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Doctor")]
     public async Task<IActionResult> GetDoctorById(Guid id)
     {
         var result = await _doctorService.GetDoctorProfileByIdAsync(id);
@@ -57,7 +58,7 @@ public class DoctorsController : ApiController
     }
 
     [HttpGet("doctors")]
-    // [Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> GetDoctorsForTable([FromQuery] DoctorFilterDto filter)
     {
         var result = await _doctorService.GetDoctorsForReceptionistAsync(filter);
@@ -65,7 +66,7 @@ public class DoctorsController : ApiController
     }
 
     [HttpPut("{id:guid}")]
-    // [Authorize(Roles = "Doctor, Receptionist")]
+    [Authorize(Roles = "Doctor, Receptionist")]
     public async Task<IActionResult> UpdateDoctorProfile(Guid id, [FromBody] UpdateDoctorDto request)
     {
         var validationResult = await _updateValidator.ValidateAsync(request);

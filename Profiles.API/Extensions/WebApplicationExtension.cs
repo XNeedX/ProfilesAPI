@@ -12,7 +12,14 @@ public static class WebApplicationExtensions
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(options =>
+            {
+                options.OAuthClientId("public-client"); 
+                options.OAuthAdditionalQueryStringParams(new Dictionary<string, string>
+        {
+            { "prompt", "login" }
+        });
+            });
         }
 
         app.UseHttpsRedirection();

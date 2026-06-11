@@ -4,6 +4,7 @@ using Profiles.Application.Abstractions;
 using Profiles.Application.DTOs;
 using Profiles.Presentation.Responses;
 using Profiles.Application.Mappings;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Profiles.Presentation.Controllers;
 
@@ -90,7 +91,7 @@ public class PatientsController : ApiController
     }
 
     [HttpGet("{id:guid}")]
-    // [Authorize(Roles = "Doctor, Receptionist")]
+    [Authorize(Roles = "Doctor, Receptionist")]
     public async Task<IActionResult> GetProfileById(Guid id)
     {
         var result = await _patientService.GetPatientByIdAsync(id);

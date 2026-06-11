@@ -3,7 +3,8 @@ using Profiles.Application.DTOs;
 using Profiles.Application.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Profiles.Domain.Models; // Для PageParams
-using Profiles.Presentation.Responses; // Ваш namespace с ApiResponse
+using Profiles.Presentation.Responses;
+using Microsoft.AspNetCore.Authorization; // Ваш namespace с ApiResponse
 
 namespace Profiles.Presentation.Controllers;
 
@@ -26,7 +27,7 @@ public class ReceptionistsController : ApiController
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> CreateReceptionist([FromBody] CreateReceptionistRequest request)
     {
         var validationResult = await _createValidator.ValidateAsync(request);
@@ -42,7 +43,7 @@ public class ReceptionistsController : ApiController
     }
 
     [HttpGet]
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> GetAllReceptionists([FromQuery] PageParams pageParams) // Добавили пагинацию
     {
         var result = await _receptionistService.GetAllPagedAsync(pageParams); 
@@ -50,7 +51,7 @@ public class ReceptionistsController : ApiController
     }
 
     [HttpGet("{id}")]
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> GetReceptionist(Guid id)
     {
         var result = await _receptionistService.GetReceptionistAsync(id);
@@ -58,7 +59,7 @@ public class ReceptionistsController : ApiController
     }
 
     [HttpPut("{id}")]
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> UpdateReceptionist(Guid id, [FromBody] UpdateReceptionistDto request)
     {
         var validationResult = await _updateValidator.ValidateAsync(request);
@@ -70,7 +71,7 @@ public class ReceptionistsController : ApiController
     }
 
     [HttpDelete("{id}")]
-    //[Authorize(Roles = "Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public async Task<IActionResult> DeleteReceptionist(Guid id)
     {
         var result = await _receptionistService.DeleteReceptionistAsync(id);
