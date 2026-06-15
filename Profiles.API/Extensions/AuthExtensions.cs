@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 
 namespace InnoClinic.Profiles.Api.Extensions;
@@ -36,7 +35,7 @@ public static class AuthExtensions
                         return Task.CompletedTask;
                     }
                 };
-                options.RequireHttpsMetadata = false; // Для локальной разработки по HTTP
+                options.RequireHttpsMetadata = false; 
                 options.Audience = configuration["Authentication:Audience"];
                 options.MetadataAddress = configuration["Authentication:MetadataAddress"]!;
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -70,19 +69,9 @@ public static class AuthExtensions
                 }
             });
 
-            o.AddSecurityRequirement(new OpenApiSecurityRequirement
+            o.AddSecurityRequirement(document => new OpenApiSecurityRequirement
             {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Id = "Keycloak",
-                            Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    new string[] {}
-                }
+                [new OpenApiSecuritySchemeReference("Keycloak", document)] = []
             });
         });
 

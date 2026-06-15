@@ -2,9 +2,9 @@
 using Profiles.Application.DTOs;
 using Profiles.Application.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using Profiles.Domain.Models; // Для PageParams
+using Profiles.Domain.Models; 
 using Profiles.Presentation.Responses;
-using Microsoft.AspNetCore.Authorization; // Ваш namespace с ApiResponse
+using Microsoft.AspNetCore.Authorization; 
 
 namespace Profiles.Presentation.Controllers;
 
@@ -44,7 +44,7 @@ public class ReceptionistsController : ApiController
 
     [HttpGet]
     [Authorize(Roles = "Receptionist")]
-    public async Task<IActionResult> GetAllReceptionists([FromQuery] PageParams pageParams) // Добавили пагинацию
+    public async Task<IActionResult> GetAllReceptionists([FromQuery] PageParams pageParams) 
     {
         var result = await _receptionistService.GetAllPagedAsync(pageParams); 
         return HandleResult(result);
