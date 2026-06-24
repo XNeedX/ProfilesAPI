@@ -1,11 +1,13 @@
 ﻿using InnoClinic.Contracts.Events.Profiles;
 using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Profiles.Application.Abstractions;
 using Profiles.Application.DTOs;
-using Profiles.Application.Mappings; 
+using Profiles.Application.Mappings;
 using Profiles.Domain.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Claims;
 
 namespace Profiles.Application.Services;
 
@@ -14,15 +16,18 @@ internal class PatientService : IPatientService
     private readonly IRepository<PatientProfile> _patientRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public PatientService(
         IRepository<PatientProfile> patientRepository, 
         IUnitOfWork unitOfWork, 
-        IPublishEndpoint publishEndpoint)
+        IPublishEndpoint publishEndpoint,
+        IHttpContextAccessor httpContextAccessor)
     {
         _patientRepository = patientRepository;
         _unitOfWork = unitOfWork;
         _publishEndpoint = publishEndpoint;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Result> UpdateAsync(Guid id, CreatePatientDto request)
@@ -40,6 +45,8 @@ internal class PatientService : IPatientService
         await _publishEndpoint.Publish<IPatientUpdatedEvent>(new
         {
             Id = existing.Id,
+            AccountId = existing.AccountId, 
+            Email = existing.Email,
             FirstName = existing.FirstName,
             LastName = existing.LastName,
             MiddleName = existing.MiddleName,
@@ -69,10 +76,16 @@ internal class PatientService : IPatientService
     }
     public async Task<Result<PatientProfile>> CreateInitialAsync(string email)
     {
+        ClaimsPrincipal User = _httpContextAccessor.HttpContext?.User;
+
+        string isEmailVerifiedClaim = User.FindFirst("email_verified").Value;
+
+        bool isEmailVerified = isEmailVerifiedClaim == "true";
+
         var profile = new PatientProfile
         {
             Id = Guid.NewGuid(),
-            IsEmailVerified = false,
+            IsEmailVerified = isEmailVerified,
             IsLinkedToAccount = false
         };
 
@@ -121,6 +134,7 @@ internal class PatientService : IPatientService
         {
             Id = profile.Id,
             AccountId = profile.AccountId,
+            Email = profile.Email,
             FirstName = profile.FirstName,
             LastName = profile.LastName,
             MiddleName = profile.MiddleName,

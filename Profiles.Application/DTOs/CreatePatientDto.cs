@@ -6,6 +6,7 @@ public record CreatePatientDto(
     string LastName,
     string? MiddleName,
     string PhoneNumber,
+    string Email,
     DateTime DateOfBirth,
     bool IsEmailVerified,
     string AccountId
