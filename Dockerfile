@@ -7,6 +7,12 @@ USER app
 # 2. Этап сборки (здесь можно оставить стандартный SDK на Linux)
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
+
+ARG GITHUB_USERNAME
+ARG GITHUB_PASSWORD
+ENV GITHUB_USERNAME=$GITHUB_USERNAME
+ENV GITHUB_PASSWORD=$GITHUB_PASSWORD
+
 WORKDIR /src
 # Кэширование зависимостей (оставляем как было)
 COPY ["Profiles.API/Profiles.Presentation.csproj", "Profiles.API/"]
