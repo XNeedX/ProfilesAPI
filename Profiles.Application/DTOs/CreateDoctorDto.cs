@@ -14,6 +14,7 @@ public sealed record CreateDoctorDto(
 );
 
 public record DoctorCardDto(
+    Guid Id,
     string? PhotoPath,
     string FullName,
     string Specialization,

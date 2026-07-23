@@ -16,9 +16,9 @@ public static class WebApplicationExtensions
             {
                 options.OAuthClientId("public-client"); 
                 options.OAuthAdditionalQueryStringParams(new Dictionary<string, string>
-        {
-            { "prompt", "login" }
-        });
+                    {
+                        { "prompt", "login" }
+                    });
             });
         }
 

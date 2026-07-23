@@ -2,7 +2,6 @@
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Profiles.Application.Abstractions;
 using Profiles.Application.DTOs;
 using Profiles.Application.Mappings;

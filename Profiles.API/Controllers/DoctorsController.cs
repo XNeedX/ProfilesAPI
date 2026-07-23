@@ -50,7 +50,7 @@ public class DoctorsController : ApiController
     }
 
     [HttpGet("{id:guid}")]
-    [Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Patient, Doctor")]
     public async Task<IActionResult> GetDoctorById(Guid id)
     {
         var result = await _doctorService.GetDoctorProfileByIdAsync(id);

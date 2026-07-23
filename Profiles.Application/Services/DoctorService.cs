@@ -120,6 +120,7 @@ internal class DoctorService : IDoctorService
         var projectedQuery = query
             .ApplyFilters(filter) 
             .Select(d => new DoctorCardDto(
+                d.Id,
                 d.PhotoPath,
                 $"{d.FirstName} {d.LastName} {d.MiddleName}".Trim(),
                 d.Specialization,
